@@ -1,0 +1,54 @@
+
+#include<stdio.h>
+int count=0;
+int a[10];
+int target;
+int vis[10];
+
+void subset(int cs,int k,int rsum)
+{
+    int i;
+    vis[k]=1;
+
+    if(cs+a[k]==target)
+    {
+        printf("\nSubset solution=%d\n",++count);
+        for(i=0;i<=k;i++)
+        {
+            if(vis[i]==1)
+                printf("%d    ",a[i]);
+        }
+    }
+    else if(cs+a[k]+a[k+1]<=target)
+        subset(cs+a[k],k+1,rsum-a[k]);
+    if((cs+rsum-a[k]>=target)&&(cs+a[k+1]<=target))
+    {
+        vis[k]=0;
+        subset(cs,k+1,rsum-a[k]);
+    }
+}
+
+void main()
+{
+    int sum=0,i,n;
+    printf("\nEnter the number of elements\n");
+    scanf("%d",&n);
+
+    printf("\nEnter the elements in ascending order:\n");
+    for(i=0;i<n;i++)
+        scanf("%d",&a[i]);
+
+    printf("\nEnter the required sum:");
+    scanf("%d",&target);
+
+    for(i=0;i<n;i++)
+            sum+=a[i];
+
+    if(sum<target)
+    {
+        printf("\nNo solution exists\n");
+        return;
+    }
+    printf("\nThe solution is:\n");
+     subset(0,0,sum);
+}
