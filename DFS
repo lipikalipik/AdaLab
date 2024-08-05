@@ -1,0 +1,59 @@
+
+#include<stdio.h>
+
+int res[20];  //store the dead vertex or which is completely explored
+int vis[20];   //to know what nodes are visited and what nodes are not visited
+int jj=0;    //index variable for array res[]
+
+void dfs(int i,int n,int cost[10][10])
+{
+int j;
+//visit the vertex u
+vis[i]=1;
+//traverse deeper into the graph till we get the dead end or till all the vertices are visited
+for(j=0;j<n;j++)
+{
+if(cost[i][j]==1  && vis[j]==0)
+{
+dfs(j,n,cost);
+}
+}
+//store the dead vertex or which is completely explored
+res[jj++]=i;
+}
+
+
+void depth_first_traversal(int n,int a[10][10])
+{
+int i;
+//initialisation to indicate that no vertex has been visited
+for(i=0;i<n;i++)
+vis[i]=0;
+//process each vertex in the graph
+for(i=0;i<n;i++) 
+{
+if(vis[i]==0)
+dfs(i,n,a);
+}
+}
+
+void main()
+{
+int i,j,k,m,n,cost[10][10];
+printf("\nEnter the number of nodes");
+scanf("%d",&n);
+
+printf("\nEnter the adjacency matrix:");
+for(i=0;i<n;i++)
+
+for(j=0;j<n;j++)
+scanf("%d",&cost[i][j]);
+
+depth_first_traversal(n,cost);
+
+printf("\nThe topological sequence is:\n");
+for(i=n-1;i>=0;i--)
+printf("%d   ",res[i]);
+}
+
+
